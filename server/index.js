@@ -22,7 +22,7 @@ app.use(
   cors({
     origin: [
         "http://localhost:3001", 
-        "https://project-pilot-ten.vercel.app"
+        "https://project-pilot-10.netlify.app"
     ],
   })
 );
