@@ -27,7 +27,7 @@ const MainProfile = ({ user }) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <h2 className="font-semibold text-2xl">{user?.name}</h2>
-            <p className="mt-2 ml-4 text-gray-400">@{user?.gitHub.slice(19)}</p>
+            <p className="mt-2 mx-4 text-gray-400">@{user?.gitHub.slice(19)}</p>
           </div>
           <button
             className="inline-flex items-center bg-blue-600 hover:opacity-90 p-2 mb-2 rounded-full"

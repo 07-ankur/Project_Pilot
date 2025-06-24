@@ -8,26 +8,19 @@ import Chart from "./chart.png";
 import Button from "../modals/Button";
 
 const Side = ({ Project }) => {
-  // const hoverFunction=(e)=>{
-  //   e.target.style.backgroundColor="red"
-  // }
-  // const handleLeave=(e)=>{
-  //   e.target.style.backgroundColor=''
-  // }
-
   function mouseover() {
     document.getElementById("span").style.color = "red";
-}
+  }
 
-  const style1={
+  const style1 = {
     borderRadius: "6px",
     display: "flex",
     height: "8px",
     outline: "1px solid #0000",
-    overflow:" hidden",
-    width:"100%"
-} 
-  
+    overflow: "hidden",
+    width: "100%",
+  };
+
   return (
     <div className="mt-2 ml-4 mb-4">
       <div className="repository pr-4">
@@ -95,7 +88,9 @@ const Side = ({ Project }) => {
             rel="noreferrer"
             className="text-lg font-medium text-slate-200 pt-3"
           >
-            {Project?.createdBy[0]?.name}
+            {Array.isArray(Project?.createdBy) && Project?.createdBy.length > 0
+              ? Project.createdBy[0].name
+              : "Unknown"}
           </a>
         </div>
         <div className="createdAt">
@@ -113,38 +108,41 @@ const Side = ({ Project }) => {
         <p className="text-sm font-semibold mb-4 font-sans text-slate-300 pb-1">
           Languages
         </p>
-        <div className="bar" style={{ marginBottom: "10px" }}>
-          <span className="lineBar" style={style1}>
-            <span></span>
-            {Project?.language.map((e, index) => {
-              console.log(e.percent);
-              return (
-                <span
-                  id="span"
-                  key={index}
-                  onMouseOver={mouseover}
-                  style={{ backgroundColor: e.color, width: e.percent + "%" }}
-                ></span>
-              );
-            })}
-          </span>
-        </div>
-        <div className="keys" style={{ width: "fitContent" }}>
-          {Project?.language.map((e) => {
-            return (
-              <span
-                style={{
-                  width: "10px",
-                  padding: "20px",
-                  height: "10px",
-                  color: e.color,
-                }}
-              >
-                {e.language}
+
+        {/* Check if Project?.language is an array before mapping */}
+        {Array.isArray(Project?.language) && Project?.language.length > 0 ? (
+          <>
+            <div className="bar" style={{ marginBottom: "10px" }}>
+              <span className="lineBar" style={style1}>
+                {Project?.language.map((e, index) => (
+                  <span
+                    id="span"
+                    key={index}
+                    onMouseOver={mouseover}
+                    style={{ backgroundColor: e.color, width: e.percent + "%" }}
+                  ></span>
+                ))}
               </span>
-            );
-          })}
-        </div>
+            </div>
+            <div className="keys" style={{ width: "fitContent" }}>
+              {Project?.language.map((e) => (
+                <span
+                  key={e.language}
+                  style={{
+                    width: "10px",
+                    padding: "20px",
+                    height: "10px",
+                    color: e.color,
+                  }}
+                >
+                  {e.language}
+                </span>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text-slate-400">No language data available</p>
+        )}
       </div>
       <div className="h-[1px] bg-slate-600 mt-4 w-full" />
 
@@ -233,24 +231,13 @@ const Side = ({ Project }) => {
           </div>
         </div>
         <div className="chat mt-3 ml-1 cursor-pointer hover:opacity-90">
-          <div className="bg-green-700 py-3 px-4 flex items-center justify-center space-x-2 rounded-lg">
-            <BsFillChatLeftTextFill />
-            <p className="text-lg">Chat</p>
+          <div className="bg-green-600 py-2 px-3 w-fit rounded-md">
+            <div className="flex items-center justify-between gap-2">
+              <BsFillChatLeftTextFill className="text-white" />
+              <Button text="Chat Now" />
+            </div>
           </div>
         </div>
-      </div>
-
-      <a href={Project?.gitHubRepoLink} target="_blank" rel="noreferrer">
-        <Button label="Contribute" fullWidth={true} outline={true} />
-      </a>
-
-      <div className="my-6">
-        <button
-          className={`bg-red-500 text-white py-2 px-4 text-md border-red-500 rounded-full font-semibold border-2 transition hover:opacity-80 w-full`}
-        >
-          {" "}
-          Report{" "}
-        </button>
       </div>
     </div>
   );
